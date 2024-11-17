@@ -95,6 +95,7 @@ def is_food():
         image = image.resize((64, 64))  # (64, 64, 3)
         image = image.convert('RGB')  # RGBA -> RGB 변환
         image_array = np.array(image)
+        image_array = image_array /255.0
         image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
         
         guess = food_model(image_array)
