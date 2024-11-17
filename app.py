@@ -83,7 +83,7 @@ food_model.load_weights(weights_path)
 
 # 음식 인식 AI 추론 결과를 반환하는 엔드포인트
 @app.route('/api/food', methods=['POST'])
-def image_size():
+def is_food():
     if 'file' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
     
