@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 import io
+import cv2
+import numpy as np
+import tensorflow as tf
 
 app = Flask(__name__)
 
@@ -47,5 +50,55 @@ def image_size():
         image = Image.open(io.BytesIO(file.read()))
         width, height = image.size
         return jsonify({"width": width, "height": height})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+
+def foodModel():
+    model = tf.keras.Sequential([
+               tf.keras.layers.ZeroPadding2D(padding=3, input_shape = (64,64,3)),
+               tf.keras.layers.Conv2D(64, (11,11), strides=1),
+               tf.keras.layers.BatchNormalization(axis = 3),
+               tf.keras.layers.ReLU(),
+               tf.keras.layers.MaxPool2D(),
+
+               tf.keras.layers.Conv2D(64, (2,2), strides=1),
+               tf.keras.layers.BatchNormalization(axis = 3),
+               tf.keras.layers.ReLU(),
+               tf.keras.layers.MaxPool2D(),
+
+
+               tf.keras.layers.Conv2D(64, (2,2), strides=1),
+               tf.keras.layers.BatchNormalization(axis = 3),
+               tf.keras.layers.ReLU(),
+               tf.keras.layers.MaxPool2D(),
+
+               tf.keras.layers.Flatten(),
+               tf.keras.layers.Dense(1, activation="sigmoid")
+    ])
+    return model
+
+food_model = foodModel()
+weights_path = "my_food_model(88_99).h5"
+food_model.load_weights(weights_path)
+
+# 음식 인식 AI 추론 결과를 반환하는 엔드포인트
+@app.route('/api/food', methods=['POST'])
+def image_size():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
+
+    try:
+        image = Image.open(io.BytesIO(file.read()))
+        image_array = np.array(image)
+        image_array = cv2.resize(image_array, (64, 64))  # (64, 64, 3)
+        image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
+        
+        guess = food_model(image_array)
+        guess = round(float(guess[0][0])) # Food = 0 / Non-Food = 1
+        return jsonify({"guess": guess})
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
