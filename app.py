@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify
+from PIL import Image
+import io
 
 app = Flask(__name__)
 
@@ -29,3 +31,21 @@ def echo():
 def square(number):
     result = number ** 2
     return jsonify({"number": number, "square": result})
+
+# 이미지 크기를 반환하는 엔드포인트
+@app.route('/api/image-size', methods=['POST'])
+def image_size():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
+
+    try:
+        # 이미지를 열고 크기 반환
+        image = Image.open(io.BytesIO(file.read()))
+        width, height = image.size
+        return jsonify({"width": width, "height": height})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
