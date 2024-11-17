@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 import io
-import cv2
 import numpy as np
 import tensorflow as tf
 
@@ -81,24 +80,24 @@ food_model = foodModel()
 weights_path = "my_food_model(88_99).h5"
 food_model.load_weights(weights_path)
 
-# # 음식 인식 AI 추론 결과를 반환하는 엔드포인트
-# @app.route('/api/food', methods=['POST'])
-# def is_food():
-#     if 'file' not in request.files:
-#         return jsonify({"error": "No file uploaded"}), 400
+# 음식 인식 AI 추론 결과를 반환하는 엔드포인트
+@app.route('/api/food', methods=['POST'])
+def is_food():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
     
-#     file = request.files['file']
-#     if file.filename == '':
-#         return jsonify({"error": "Empty file"}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
 
-#     try:
-#         image = Image.open(io.BytesIO(file.read()))
-#         image_array = np.array(image)
-#         image_array = cv2.resize(image_array, (64, 64))  # (64, 64, 3)
-#         image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
+    try:
+        image = Image.open(io.BytesIO(file.read()))
+        image = image.resize((64, 64))  # (64, 64, 3)
+        image_array = np.array(image)
+        image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
         
-#         guess = food_model(image_array)
-#         guess = round(float(guess[0][0])) # Food = 0 / Non-Food = 1
-#         return jsonify({"guess": guess})
-#     except Exception as e:
-#         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+        guess = food_model(image_array)
+        guess = round(float(guess[0][0])) # Food = 0 / Non-Food = 1
+        return jsonify({"guess": guess})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
