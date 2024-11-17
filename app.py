@@ -93,6 +93,7 @@ def is_food():
     try:
         image = Image.open(io.BytesIO(file.read()))
         image = image.resize((64, 64))  # (64, 64, 3)
+        image = image.convert('RGB')  # RGBA -> RGB 변환
         image_array = np.array(image)
         image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
         
