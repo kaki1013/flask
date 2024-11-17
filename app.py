@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 import io
-# import cv2
-# import numpy as np
-# import tensorflow as tf
+import cv2
+import numpy as np
+import tensorflow as tf
 
 app = Flask(__name__)
 
