@@ -3,6 +3,7 @@ from PIL import Image
 import io
 import numpy as np
 import tensorflow as tf
+import cv2
 
 app = Flask(__name__)
 
@@ -92,9 +93,10 @@ def is_food():
 
     try:
         image = Image.open(io.BytesIO(file.read()))
-        image = image.resize((64, 64))  # (64, 64, 3)
+        # image = image.resize((64, 64))  # (64, 64, 3)
         image = image.convert('RGB')  # RGBA -> RGB 변환
         image_array = np.array(image)
+        image_array = cv2.resize(image_array, (64, 64))  # cv2 test
         image_array = image_array /255.0
         image_array = np.expand_dims(image_array, axis=0)  # (1, 64, 64, 3)
         
