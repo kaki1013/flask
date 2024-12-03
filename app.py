@@ -20,7 +20,7 @@ def index():
     return render_template('./index.html')
 
 # test : 필요한 정보를 반환하는 엔드포인트 (ex. 라이브러리 버전 확인)
-@app.route("/test", method=['GET'])
+@app.route("/test", methods=['GET'])
 def test_():
     try:
         # Get OpenAI library version
