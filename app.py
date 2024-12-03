@@ -62,8 +62,8 @@ api_key = os.getenv("API_KEY")
 if not api_key:
     raise ValueError("API_KEY environment variable is not set.")
 
-# openai.api_key = api_key
-# client = OpenAI(api_key=api_key)
+openai.api_key = api_key
+client = OpenAI(api_key=api_key)
 # ============================================================================
 # Function to encode the image
 def encode_image(image_path):
