@@ -110,7 +110,7 @@ class Two_Digit_Reasponse(BaseModel):
     dia: int  # 이완 : diastolic blood pressure
 # ============================================================================
 dict_type = {
-    "food" : ["What food is in this image? Answer only food!", Food_Reasponse],
+    "food" : ["What food is in this image? Answer only food with Korean!", Food_Reasponse],
     "peel" : ["Is there peels in this image?", Exist],
     "glucose" : ["What is the number in this glucometer image?", One_Digit_Reasponse],
     "sphygmomanometer" : ["What is the two numbers(sys, dia) in this sphygmomanometer image?", Two_Digit_Reasponse],
