@@ -142,17 +142,17 @@ def is_food():
     try:
         image = Image.open(io.BytesIO(file.read()))
 
-        # 이미지를 임시 저장
-        temp_path = "temp_food_image.png"
-        image.save(temp_path)
+    #     # 이미지를 임시 저장
+    #     temp_path = "temp_food_image.png"
+    #     image.save(temp_path)
 
-        description = analyze_image(temp_path, "food")
-        print(json.dumps(description, indent=4))
+    #     description = analyze_image(temp_path, "food")
+    #     print(json.dumps(description, indent=4))
 
-        # 임시 파일 삭제 (안전하게 처리)
-        os.remove(temp_path)
+    #     # 임시 파일 삭제 (안전하게 처리)
+    #     os.remove(temp_path)
 
-        # 결과 반환
-        return jsonify({"guess": description})
-    except Exception as e:
-        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+    #     # 결과 반환
+    #     return jsonify({"guess": description})
+    # except Exception as e:
+    #     return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
