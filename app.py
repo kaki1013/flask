@@ -147,12 +147,12 @@ def is_food():
     #     image.save(temp_path)
 
     #     description = analyze_image(temp_path, "food")
-    #     print(json.dumps(description, indent=4))
 
     #     # 임시 파일 삭제 (안전하게 처리)
     #     os.remove(temp_path)
 
-    #     # 결과 반환
-    #     return jsonify({"guess": description})
-    # except Exception as e:
-    #     return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+        # 결과 반환
+        # return jsonify({"guess": description})
+        return jsonify({"guess": 1})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
