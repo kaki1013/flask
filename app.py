@@ -117,31 +117,31 @@ dict_type = {
 }
 # ============================================================================
 # 이미지 파일을 Vision API에 전달
-# def analyze_image(image_path, types):
-#   response = client.beta.chat.completions.parse(    
-#     model="gpt-4o-mini",
-#     messages=[
-#       {
-#         "role": "user",
-#         "content": [
-#           {
-#             "type": "text",
-#             "text": dict_type[types][0],
-#           },
-#           {
-#             "type": "image_url",
-#             "image_url": {
-#               "url":  f"data:image/jpeg;base64,{encode_image(image_path)}"
-#             },
-#           },
-#         ],
-#       }
-#     ],
-#     response_format=dict_type[types][1],
-#   )
+def analyze_image(image_path, types):
+  response = client.beta.chat.completions.parse(    
+    model="gpt-4o-mini",
+    messages=[
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": dict_type[types][0],
+          },
+          {
+            "type": "image_url",
+            "image_url": {
+              "url":  f"data:image/jpeg;base64,{encode_image(image_path)}"
+            },
+          },
+        ],
+      }
+    ],
+    response_format=dict_type[types][1],
+  )
 
-#   json_data = json.loads(response.choices[0].message.content)
-#   return json_data
+  json_data = json.loads(response.choices[0].message.content)
+  return json_data
 # ============================================================================
 # 음식 인식 AI 추론 결과를 반환하는 엔드포인트
 @app.route('/api/food', methods=['POST'])
@@ -160,8 +160,8 @@ def is_food():
         temp_path = "temp_food_image.png"
         image.save(temp_path)
 
-        # description = analyze_image(temp_path, "food")
-        description = encode_image(image_path)
+        description = analyze_image(temp_path, "food")
+        # description = encode_image(image_path)
 
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
