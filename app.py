@@ -161,7 +161,6 @@ def is_food():
         image.save(temp_path)
 
         description = analyze_image(temp_path, "food")
-        # description = encode_image(image_path)
 
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
@@ -170,3 +169,85 @@ def is_food():
         return jsonify({"guess": description})
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+# ============================================================================
+# 알약 인식 AI 추론 결과를 반환하는 엔드포인트
+@app.route('/api/peel', methods=['POST'])
+def peel_():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
+
+    try:
+        image = Image.open(io.BytesIO(file.read()))
+
+        # 이미지를 임시 저장
+        temp_path = "temp_peel_image.png"
+        image.save(temp_path)
+
+        description = analyze_image(temp_path, "peel")
+
+        # 임시 파일 삭제 (안전하게 처리)
+        os.remove(temp_path)
+
+        # 결과 반환
+        return jsonify({"guess": description})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+# ============================================================================
+# 혈당계 숫자 인식 AI 추론 결과를 반환하는 엔드포인트
+@app.route('/api/glucose_digit', methods=['POST'])
+def glucose_digit_():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
+
+    try:
+        image = Image.open(io.BytesIO(file.read()))
+
+        # 이미지를 임시 저장
+        temp_path = "temp_glucose_digit_image.png"
+        image.save(temp_path)
+
+        description = analyze_image(temp_path, "glucose")
+
+        # 임시 파일 삭제 (안전하게 처리)
+        os.remove(temp_path)
+
+        # 결과 반환
+        return jsonify({"guess": description})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+# ============================================================================
+# 혈압계 숫자 인식 AI 추론 결과를 반환하는 엔드포인트
+@app.route('/api/sphygmomanometer_digit', methods=['POST'])
+def sphygmomanometer_digit_():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file"}), 400
+
+    try:
+        image = Image.open(io.BytesIO(file.read()))
+
+        # 이미지를 임시 저장
+        temp_path = "temp_sphygmomanometer_digit_image.png"
+        image.save(temp_path)
+
+        description = analyze_image(temp_path, "sphygmomanometer")
+
+        # 임시 파일 삭제 (안전하게 처리)
+        os.remove(temp_path)
+
+        # 결과 반환
+        return jsonify({"guess": description})
+    except Exception as e:
+        return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
+        
