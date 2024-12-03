@@ -17,6 +17,15 @@ app = Flask(__name__)
 def index():
     return render_template('./index.html')
 
+# test : 필요한 정보를 반환하는 엔드포인트 (ex. 라이브러리 버전 확인)
+@app.route("/test")
+def test_():
+    # Get the list of installed packages and their versions
+    installed_packages = {dist.project_name: dist.version for dist in pkg_resources.working_set}
+    
+    # Return as JSON response
+    return jsonify(installed_packages)
+    
 # test : GET 요청을 처리하는 간단한 엔드포인트
 @app.route('/api/hello', methods=['GET'])
 def hello_world():
@@ -62,8 +71,8 @@ api_key = os.getenv("API_KEY")
 if not api_key:
     raise ValueError("API_KEY environment variable is not set.")
 
-openai.api_key = api_key
-client = OpenAI(api_key=api_key)
+# openai.api_key = api_key
+# client = OpenAI(api_key=api_key)
 # ============================================================================
 # Function to encode the image
 def encode_image(image_path):
