@@ -11,6 +11,8 @@ from openai import OpenAI
 import json
 from pydantic import BaseModel
 
+from importlib.metadata import version, PackageNotFoundError
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -18,13 +20,17 @@ def index():
     return render_template('./index.html')
 
 # test : 필요한 정보를 반환하는 엔드포인트 (ex. 라이브러리 버전 확인)
-@app.route("/test")
+@app.route("/test", method=['GET'])
 def test_():
-    # Get the list of installed packages and their versions
-    installed_packages = {dist.project_name: dist.version for dist in pkg_resources.working_set}
-    
-    # Return as JSON response
-    return jsonify(installed_packages)
+    try:
+        # Get OpenAI library version
+        openai_version = version("openai")
+        response = {"openai_version": openai_version}
+        
+    except PackageNotFoundError:
+        # Handle case where OpenAI library is not installed
+        response = {"error": "OpenAI library is not installed"}
+    return jsonify(response)
     
 # test : GET 요청을 처리하는 간단한 엔드포인트
 @app.route('/api/hello', methods=['GET'])
