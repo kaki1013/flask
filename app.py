@@ -63,8 +63,8 @@ api_key = os.getenv("API_KEY")
 if not api_key:
     raise ValueError("API_KEY environment variable is not set.")
 
-openai.api_key = api_key
-client = OpenAI(api_key=api_key)
+# openai.api_key = api_key
+# client = OpenAI(api_key=api_key)
 # ============================================================================
 # Function to encode the image
 def encode_image(image_path):
@@ -103,31 +103,31 @@ dict_type = {
 }
 # ============================================================================
 # 이미지 파일을 Vision API에 전달
-def analyze_image(image_path, types):
-  response = client.beta.chat.completions.parse(    
-    model="gpt-4o-mini",
-    messages=[
-      {
-        "role": "user",
-        "content": [
-          {
-            "type": "text",
-            "text": dict_type[types][0],
-          },
-          {
-            "type": "image_url",
-            "image_url": {
-              "url":  f"data:image/jpeg;base64,{encode_image(image_path)}"
-            },
-          },
-        ],
-      }
-    ],
-    response_format=dict_type[types][1],
-  )
+# def analyze_image(image_path, types):
+#   response = client.beta.chat.completions.parse(    
+#     model="gpt-4o-mini",
+#     messages=[
+#       {
+#         "role": "user",
+#         "content": [
+#           {
+#             "type": "text",
+#             "text": dict_type[types][0],
+#           },
+#           {
+#             "type": "image_url",
+#             "image_url": {
+#               "url":  f"data:image/jpeg;base64,{encode_image(image_path)}"
+#             },
+#           },
+#         ],
+#       }
+#     ],
+#     response_format=dict_type[types][1],
+#   )
 
-  json_data = json.loads(response.choices[0].message.content)
-  return json_data
+#   json_data = json.loads(response.choices[0].message.content)
+#   return json_data
 # ============================================================================
 # 음식 인식 AI 추론 결과를 반환하는 엔드포인트
 @app.route('/api/food', methods=['POST'])
