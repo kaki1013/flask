@@ -166,7 +166,7 @@ def is_food():
         os.remove(temp_path)
 
         # 결과 반환
-        return jsonify({"guess": description})
+        return jsonify(description)
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
 # ============================================================================
@@ -193,7 +193,7 @@ def peel_():
         os.remove(temp_path)
 
         # 결과 반환
-        return jsonify({"guess": description})
+        return jsonify(description)
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
 # ============================================================================
@@ -220,7 +220,7 @@ def glucose_digit_():
         os.remove(temp_path)
 
         # 결과 반환
-        return jsonify({"guess": description})
+        return jsonify(description)
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
 # ============================================================================
@@ -247,7 +247,7 @@ def sphygmomanometer_digit_():
         os.remove(temp_path)
 
         # 결과 반환
-        return jsonify({"guess": description})
+        return jsonify(description)
     except Exception as e:
         return jsonify({"error": f"Invalid image file: {str(e)}"}), 400
         
