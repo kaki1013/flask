@@ -98,14 +98,16 @@ class Food_Reasponse(BaseModel):
 
 # 알약
 class Exist(BaseModel):
-    exist: bool
+    guess: bool
 
 # 숫자 - 혈당
 class One_Digit_Reasponse(BaseModel):
+    is_detected: bool
     digit: int
 
 # 숫자 - 혈압
 class Two_Digit_Reasponse(BaseModel):
+    is_detected: bool
     sys: int  # 수축 : systolic blood pressure
     dia: int  # 이완 : diastolic blood pressure
 # ============================================================================
@@ -165,6 +167,9 @@ def is_food():
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
 
+        # guess 추가
+        description["guess"] = int(len(description["resp"]) == 0)
+
         # 결과 반환
         return jsonify(description)
     except Exception as e:
@@ -192,6 +197,9 @@ def peel_():
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
 
+        # guess -> int
+        description["guess"] = int(description["guess"])
+
         # 결과 반환
         return jsonify(description)
     except Exception as e:
@@ -218,7 +226,10 @@ def glucose_digit_():
 
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
-
+        
+        # guess 추가
+        description["guess"] = int(description["is_detected"])
+        
         # 결과 반환
         return jsonify(description)
     except Exception as e:
@@ -245,7 +256,10 @@ def sphygmomanometer_digit_():
 
         # 임시 파일 삭제 (안전하게 처리)
         os.remove(temp_path)
-
+        
+        # guess 추가
+        description["guess"] = int(description["is_detected"])
+        
         # 결과 반환
         return jsonify(description)
     except Exception as e:
