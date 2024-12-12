@@ -198,7 +198,7 @@ def peel_():
         os.remove(temp_path)
 
         # guess -> int
-        description["guess"] = int(description["guess"])
+        description["guess"] = 1-int(description["guess"])
 
         # 결과 반환
         return jsonify(description)
@@ -228,7 +228,7 @@ def glucose_digit_():
         os.remove(temp_path)
         
         # guess 추가
-        description["guess"] = int(description["is_detected"])
+        description["guess"] = 1-int(description["is_detected"])
         
         # 결과 반환
         return jsonify(description)
@@ -258,7 +258,7 @@ def sphygmomanometer_digit_():
         os.remove(temp_path)
         
         # guess 추가
-        description["guess"] = int(description["is_detected"])
+        description["guess"] = 1-int(description["is_detected"])
         
         # 결과 반환
         return jsonify(description)
